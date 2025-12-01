@@ -1,0 +1,19 @@
+{
+  "application": {
+    "brush_sizes": [1, 2, 4, 8],
+    "name": "Graphics Editor",
+    "preferences": {
+      "autosave": true,
+      "autosave_interval": 60,
+      "default_format": "PNG"
+    },
+    "tools": ["brush", "eraser", "fill", "selection"],
+    "version": "1.0.0",
+    "window": {
+      "background_color": 16777215,
+      "fullscreen": false,
+      "height": 768,
+      "width": 1280
+    }
+  }
+}

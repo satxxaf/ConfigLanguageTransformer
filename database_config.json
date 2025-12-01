@@ -1,0 +1,36 @@
+{
+  "database": {
+    "backup": {
+      "auto_backup": true,
+      "compression": true,
+      "interval": 86400,
+      "retention_days": 30
+    },
+    "connection": {
+      "database": "main_app",
+      "host": "localhost",
+      "password": "secret123",
+      "port": 8822,
+      "username": "admin"
+    },
+    "name": "production_db",
+    "performance": {
+      "buffer_size": 4096,
+      "cache_enabled": true,
+      "cache_size": 8192,
+      "query_timeout": 30
+    },
+    "pool": {
+      "max_connections": 32,
+      "min_connections": 5,
+      "retry_attempts": 3,
+      "timeout": 30
+    },
+    "replication": {
+      "enabled": true,
+      "servers": ["replica1:5432", "replica2:5432", "replica3:5432"],
+      "sync_mode": "async"
+    },
+    "type": "postgresql"
+  }
+}

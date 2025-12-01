@@ -1,0 +1,31 @@
+global MAX_CLIENTS = 0x400
+global DEFAULT_PORT = 0x50
+global CACHE_SIZE = 0x8000
+
+server = {
+    name = "nginx_proxy"
+    version = "1.18.0"
+    port = ?[DEFAULT_PORT]
+    max_clients = ?[MAX_CLIENTS]
+    enabled = true
+    
+    security = {
+        ssl_enabled = true
+        ssl_protocols = #( "TLSv1.2" "TLSv1.3" )
+        ssl_ciphers = #( "ECDHE-RSA-AES256-GCM-SHA384" "AES256-SHA256" )
+    }
+    
+    upstream_servers = #( "10.0.1.1:8080" "10.0.1.2:8080" "10.0.1.3:8080" )
+    
+    caching = {
+        enabled = true
+        size = ?[CACHE_SIZE]
+        ttl = 0xE10
+    }
+    
+    logging = {
+        level = "info"
+        format = "json"
+        file = "/var/log/nginx/access.log"
+    }
+}

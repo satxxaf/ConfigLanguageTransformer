@@ -1,0 +1,43 @@
+global MAX_CONNECTIONS = 0x20
+global QUERY_TIMEOUT = 0x1E
+global BUFFER_SIZE = 0x1000
+
+database = {
+    name = "production_db"
+    type = "postgresql"
+    
+    connection = {
+        host = "localhost"
+        port = 0x2276
+        username = "admin"
+        password = "secret123"
+        database = "main_app"
+    }
+    
+    pool = {
+        max_connections = ?[MAX_CONNECTIONS]
+        min_connections = 0x05
+        timeout = 0x1E
+        retry_attempts = 0x03
+    }
+    
+    performance = {
+        query_timeout = ?[QUERY_TIMEOUT]
+        buffer_size = ?[BUFFER_SIZE]
+        cache_enabled = true
+        cache_size = 0x2000
+    }
+    
+    replication = {
+        enabled = true
+        servers = #( "replica1:5432" "replica2:5432" "replica3:5432" )
+        sync_mode = "async"
+    }
+    
+    backup = {
+        auto_backup = true
+        interval = 0x15180
+        retention_days = 0x1E
+        compression = true
+    }
+}

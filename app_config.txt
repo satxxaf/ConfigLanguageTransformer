@@ -1,0 +1,24 @@
+global WINDOW_WIDTH = 0x500
+global WINDOW_HEIGHT = 0x300
+global BACKGROUND_COLOR = 0xFFFFFF
+
+application = {
+    name = "Graphics Editor"
+    version = "1.0.0"
+    
+    window = {
+        width = ?[WINDOW_WIDTH]
+        height = ?[WINDOW_HEIGHT]
+        fullscreen = false
+        background_color = ?[BACKGROUND_COLOR]
+    }
+    
+    tools = #( "brush" "eraser" "fill" "selection" )
+    brush_sizes = #( 0x01 0x02 0x04 0x08 )
+    
+    preferences = {
+        autosave = true
+        autosave_interval = 0x3C
+        default_format = "PNG"
+    }
+}
