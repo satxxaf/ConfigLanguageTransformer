@@ -2,8 +2,13 @@
 
 ## Содержание:
 - [О домашней работе](#о-домашней-работе)
-- [Условия Варианта №1](#условия-варианта-№1)
-
+- [Условия Варианта 1](#условия-варианта-1)
+- [Общее описание](#общее-описание)
+- [Описание всех функций и настроек](#описание-всех-функций-и-настроек)
+- [Описание команд для сборки проекта и запуска тестов](#описание-команд-для-сборки-проекта-и-запуска-тестов)
+- [Примеры использования](#примеры-использования)
+- [Код работы на C++](#код-работы-на-c)
+  
 ## О домашней работе
 Домашняя работа (ДР) выполняется дистанционно. Результаты работы над ДР сохраняются в публично доступном git-репозитории. Ссылка на публично доступный git-репозиторий 
 с результатами выполнения ДР загружается в СДО. Этапы работы над ДР должны быть отражены в истории коммитов с детальными сообщениями. Студент самостоятельно выбирает язык реализации и
@@ -14,7 +19,7 @@
 3. Описание команд для сборки проекта и запуска тестов.
 4. Примеры использования
    
-## Условия Варианта №1
+## Условия Варианта 1
 Разработать инструмент командной строки для учебного конфигурационного языка, синтаксис которого приведен далее. Этот инструмент преобразует текст из
 входного формата в выходной. Синтаксические ошибки выявляются с выдачей сообщений.
 Входной текст на учебном конфигурационном языке принимается из файла, путь к которому задан ключом командной строки. Выходной текст на
@@ -48,7 +53,7 @@
 конфигурационном языке, в стандартный формат JSON. Программа выполняет полный цикл обработки языка: лексический анализ, синтаксический разбор, 
 построение абстрактного синтаксического дерева (AST) и генерацию JSON-выхода.
 
-## Основные возможности
+### Основные возможности
 - Поддержка шестнадцатеричных чисел
 - Работа с массивами и объектами
 - Объявление и использование констант на этапе трансляции
@@ -144,7 +149,7 @@ clang++ -std=c++11 -o ConfigLanguageTransformer main.cpp
 
 Успешно преобразованный "путь к файлу txt" к "путь для сохранения json"
 
-### Примеры использования
+## Примеры использования
 
 Пример 1: Конфигурация веб-сервера
 
@@ -182,9 +187,9 @@ server = {
     }
 }
 ```
-Конвертация входного файла из txt в json
+Конвертация входного файла из txt в json через терминал
 ```
-./ConfigLanguageTransformer --input C:\Users\miyad\source\repos\ConfigLanguageTransformer\web_server_config.txt --output C:\Users\miyad\source\repos\ConfigLanguageTransformer\web_server_config.json
+./ConfigLanguageTransformer --input C:\Users\miyad\source\repos\ConfigLanguageTransformer\database_config.txt --output C:\Users\miyad\source\repos\ConfigLanguageTransformer\database_config.json
 ```
 Скрин результата
 <img width="1461" height="122" alt="image" src="https://github.com/user-attachments/assets/6f6c660b-1064-4182-905c-2ddb2d32c344" />
@@ -192,8 +197,105 @@ server = {
 Результат конвертированного txt файла в json (web_server_config.json):
 <img width="897" height="544" alt="image" src="https://github.com/user-attachments/assets/8fb9dedb-ef82-4810-90eb-07eba4820afa" />
 
+Пример 2: Конфигурация баз данных
 
-### Код работы
+Входной файл (database_config.txt):
+```
+global MAX_CONNECTIONS = 0x20
+global QUERY_TIMEOUT = 0x1E
+global BUFFER_SIZE = 0x1000
+
+database = {
+    name = "production_db"
+    type = "postgresql"
+    
+    connection = {
+        host = "localhost"
+        port = 0x2276
+        username = "admin"
+        password = "secret123"
+        database = "main_app"
+    }
+    
+    pool = {
+        max_connections = ?[MAX_CONNECTIONS]
+        min_connections = 0x05
+        timeout = 0x1E
+        retry_attempts = 0x03
+    }
+    
+    performance = {
+        query_timeout = ?[QUERY_TIMEOUT]
+        buffer_size = ?[BUFFER_SIZE]
+        cache_enabled = true
+        cache_size = 0x2000
+    }
+    
+    replication = {
+        enabled = true
+        servers = #( "replica1:5432" "replica2:5432" "replica3:5432" )
+        sync_mode = "async"
+    }
+    
+    backup = {
+        auto_backup = true
+        interval = 0x15180
+        retention_days = 0x1E
+        compression = true
+    }
+}
+```
+Конвертация входного файла из txt в json через терминал
+```
+./ConfigLanguageTransformer --input C:\Users\miyad\source\repos\ConfigLanguageTransformer\database_config.txt --output C:\Users\miyad\source\repos\ConfigLanguageTransformer\database_config.json
+```
+Скрин результата
+<img width="1455" height="89" alt="image" src="https://github.com/user-attachments/assets/ac6b4d1f-36ce-46a2-9fdd-b93fb3515e5a" />
+
+Результат конвертированного txt файла в json (database_config.json):
+<img width="803" height="760" alt="image" src="https://github.com/user-attachments/assets/4a7edafb-55b9-411d-9206-f65b4fc10112" />
+
+Пример 3: Конфигурация приложения
+
+Входной файл (app_config.txt):
+```
+global WINDOW_WIDTH = 0x500
+global WINDOW_HEIGHT = 0x300
+global BACKGROUND_COLOR = 0xFFFFFF
+
+application = {
+    name = "Graphics Editor"
+    version = "1.0.0"
+    
+    window = {
+        width = ?[WINDOW_WIDTH]
+        height = ?[WINDOW_HEIGHT]
+        fullscreen = false
+        background_color = ?[BACKGROUND_COLOR]
+    }
+    
+    tools = #( "brush" "eraser" "fill" "selection" )
+    brush_sizes = #( 0x01 0x02 0x04 0x08 )
+    
+    preferences = {
+        autosave = true
+        autosave_interval = 0x3C
+        default_format = "PNG"
+    }
+}
+```
+
+Конвертация входного файла из txt в json через терминал
+```
+./ConfigLanguageTransformer --input C:\Users\miyad\source\repos\ConfigLanguageTransformer\app_config.txt --output C:\Users\miyad\source\repos\ConfigLanguageTransformer\app_config.json
+```
+Скрин результата
+<img width="1454" height="118" alt="image" src="https://github.com/user-attachments/assets/20345422-7505-47c6-b440-a164b9fabd1f" />
+
+Результат конвертированного txt файла в json (app_config.json):
+<img width="682" height="417" alt="image" src="https://github.com/user-attachments/assets/76eb7c4a-8f5b-4ffd-9337-a9ea0742a0ad" />
+
+## Код работы на C++
 ```
 #include <iostream>
 #include <fstream>
