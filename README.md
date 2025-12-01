@@ -84,17 +84,16 @@
 ### Поддерживаемые конструкции языка
 Числа
 ```
-cpp
 port = 0x1A
 timeout = 0xFF
 ```
 Массивы
 ```
-cpp
 ports = #( 0x01 0x02 0x03 )
 hosts = #( "server1" "server2" "server3" )
+```
 Объекты
-cpp
+```
 server = {
     port = 0x50
     enabled = true
@@ -103,7 +102,6 @@ server = {
 ```
 Константы
 ```
-cpp
 global MAX_SIZE = 0x100
 global DEFAULT_PORT = 0x50
 
@@ -129,11 +127,6 @@ g++ -std=c++11 -o ConfigLanguageTransformer main.cpp
 clang++ -std=c++11 -o ConfigLanguageTransformer main.cpp
 ```
 
-Компиляция с оптимизацией
-```
-g++ -std=c++11 -O2 -o ConfigLanguageTransformer main.cpp
-```
-
 ### Запуск тестов
 #### Запуск всех тестов
 ```
@@ -151,6 +144,53 @@ g++ -std=c++11 -O2 -o ConfigLanguageTransformer main.cpp
 
 Успешно преобразованный "путь к файлу txt" к "путь для сохранения json"
 
+### Примеры использования
+
+Пример 1: Конфигурация веб-сервера
+
+Входной файл (web_server_config.txt):
+```
+global MAX_CLIENTS = 0x400
+global DEFAULT_PORT = 0x50
+global CACHE_SIZE = 0x8000
+
+server = {
+    name = "nginx_proxy"
+    version = "1.18.0"
+    port = ?[DEFAULT_PORT]
+    max_clients = ?[MAX_CLIENTS]
+    enabled = true
+    
+    security = {
+        ssl_enabled = true
+        ssl_protocols = #( "TLSv1.2" "TLSv1.3" )
+        ssl_ciphers = #( "ECDHE-RSA-AES256-GCM-SHA384" "AES256-SHA256" )
+    }
+    
+    upstream_servers = #( "10.0.1.1:8080" "10.0.1.2:8080" "10.0.1.3:8080" )
+    
+    caching = {
+        enabled = true
+        size = ?[CACHE_SIZE]
+        ttl = 0xE10
+    }
+    
+    logging = {
+        level = "info"
+        format = "json"
+        file = "/var/log/nginx/access.log"
+    }
+}
+```
+Конвертация входного файла из txt в json
+```
+./ConfigLanguageTransformer --input C:\Users\miyad\source\repos\ConfigLanguageTransformer\web_server_config.txt --output C:\Users\miyad\source\repos\ConfigLanguageTransformer\web_server_config.json
+```
+Скрин результата
+<img width="1461" height="122" alt="image" src="https://github.com/user-attachments/assets/6f6c660b-1064-4182-905c-2ddb2d32c344" />
+
+Результат конвертированного txt файла в json (web_server_config.json):
+<img width="897" height="544" alt="image" src="https://github.com/user-attachments/assets/8fb9dedb-ef82-4810-90eb-07eba4820afa" />
 
 
 ### Код работы
